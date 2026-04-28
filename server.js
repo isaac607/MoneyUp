@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 
-const db = require("./db"); // ✅ ADD THIS
+const db = require("./db");
 
 const signupUser =
 require("./controllers/signupController");
@@ -22,13 +22,21 @@ app.use(express.static(
 path.join(__dirname, "public")
 ));
 
+/* HOME ROUTE (FIXES Cannot GET /) */
+
+app.get("/", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "public", "login.html")
+    );
+});
+
 /* ROUTES */
 
 app.post("/signup", signupUser);
 
 app.post("/login", loginUser);
 
-/* FETCH USERS ROUTE (for Postman) */
+/* FETCH USERS ROUTE */
 
 app.get("/users", (req, res) => {
 
@@ -50,7 +58,7 @@ app.get("/users", (req, res) => {
 app.listen(3000, () => {
 
 console.log(
-"🚀 Server running on http://localhost:3000"
+"🚀 Server running"
 );
 
 });
